@@ -41,11 +41,17 @@ class Controller
   attr_reader :velero_namespace, :slack, :k8s_client, :logger
 
   def notify(event)
-    phase = event.resource.status.phase
+    status = event.resource.status
 
-    return if phase.empty? || phase == "Deleting"
+    return if status.phase.empty? || status == "Deleting"
 
-    msg = "#{event.resource.kind} #{event.resource.metadata.name} #{phase} \n **Progress:** `#{event.resource.progress.itemsBackedUp} / #{event.resource.progress.totalItems}` \n **Errors:** #{event.resource.progress.errors}"
+    msg = "#{event.resource.kind} #{event.resource.metadata.name} #{phase}"
+
+    if status.progress.empty?
+      []
+    else
+      msg = "#{msg} \n**Progress:** `#{status.progress.itemsBackedUp} / #{status.progress.totalItems}`"
+    end
 
     logger.info msg
 

@@ -1,0 +1,5 @@
+{  "AllowedHeaders": [],
+  "AllowedMethods": ["GET"],
+  "AllowedOrigins": ["*.developershouse.xyz", "*.matthieu-dev.xyz"],
+  "ExposeHeaders": []
+}
