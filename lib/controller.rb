@@ -96,7 +96,8 @@ class Controller
         notify event
       end
 
-    rescue EOFError, Excon::Error::Socket
+    rescue EOFError, Excon::Error::Socket => e
+      logger.error "Error - #{e}"
       logger.info "Reconnecting to API..."
       retry
     end
