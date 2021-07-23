@@ -33,12 +33,7 @@ class Controller
       watch_resources :backups
     end
 
-    t2 = Thread.new do
-      watch_resources :restores
-    end
-
     t1.join
-    t2.join
   end
 
   private
@@ -50,7 +45,7 @@ class Controller
 
     return if phase.empty? || phase == "Deleting"
 
-    msg = "#{event.resource.kind} #{event.resource.metadata.name} #{phase}"
+    msg = "#{event.resource.kind} #{event.resource.metadata.name} #{phase} \n **Progress:** `#{event.resource.progress.itemsBackedUp} / #{event.resource.progress.totalItems}` \n **Errors:** #{event.resource.progress.errors}"
 
     logger.info msg
 
@@ -64,7 +59,7 @@ class Controller
       attachment = {
         fallback: msg,
         text: msg,
-        color: phase =~ /failed/i ? "danger" : "good"
+        color: phase =~ /failed/i ? (phase =~ /Partially/i ? "warning" : "danger") : "good"
       }
 
       begin
