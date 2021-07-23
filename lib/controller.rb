@@ -47,9 +47,7 @@ class Controller
 
     msg = "#{event.resource.kind} #{event.resource.metadata.name} #{status.phase}"
 
-    if status.progress.empty?
-      []
-    else
+    if !status.progress.nil?
       msg = "#{msg} \n**Progress:** `#{status.progress.itemsBackedUp} / #{status.progress.totalItems}`"
     end
 
