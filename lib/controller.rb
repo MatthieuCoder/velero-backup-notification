@@ -54,7 +54,7 @@ class Controller
     logger.info msg
 
     if ENV.fetch("ENABLE_SLACK_NOTIFICATIONS", "false") =~ /true/i
-      at = if phase =~ /failed/i
+      at = if status.phase =~ /failed/i
              [:here]
            else
              []
@@ -63,7 +63,7 @@ class Controller
       attachment = {
         fallback: msg,
         text: msg,
-        color: phase =~ /failed/i ? (phase =~ /Partially/i ? "warning" : "danger") : "good"
+        color: status.phase =~ /failed/i ? (status.phase =~ /Partially/i ? "warning" : "danger") : "good"
       }
 
       begin
