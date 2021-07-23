@@ -43,7 +43,7 @@ class Controller
   def notify(event)
     status = event.resource.status
 
-    return if status.phase.empty? || status == "Deleting"
+    return if status.phase.empty? || status.phase == "Deleting"
 
     msg = "#{event.resource.kind} #{event.resource.metadata.name} #{status.phase}"
 
