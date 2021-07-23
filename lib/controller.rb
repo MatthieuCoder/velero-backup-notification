@@ -45,7 +45,7 @@ class Controller
 
     return if status.phase.empty? || status == "Deleting"
 
-    msg = "#{event.resource.kind} #{event.resource.metadata.name} #{phase}"
+    msg = "#{event.resource.kind} #{event.resource.metadata.name} #{status.phase}"
 
     if status.progress.empty?
       []
